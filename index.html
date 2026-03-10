@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCTV Operators' Learning Hub – Megaworld Lifestyle Malls</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1628;
+    --deep: #0d1f3c;
+    --blue: #1a3a6b;
+    --accent: #e8b84b;
+    --accent2: #4fc3f7;
+    --text: #e8edf5;
+    --muted: #7a8fab;
+    --card: rgba(255,255,255,0.04);
+    --border: rgba(255,255,255,0.08);
+    --success: #4caf76;
+    --danger: #e05a5a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* BG GRID */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(74,140,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(74,140,255,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NOISE OVERLAY */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .page { position: relative; z-index: 1; }
+
+  /* ── HEADER ── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 40px;
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    background: rgba(10,22,40,0.85);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--accent), #f0c060);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+  }
+
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .logo-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .logo-sub {
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  /* ── CLOCK & WEATHER ── */
+  #clock-widget {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 18px;
+  }
+
+  #time-display {
+    font-family: 'DM Mono', monospace;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+
+  #date-display {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+  }
+
+  .divider-v {
+    width: 1px;
+    height: 28px;
+    background: var(--border);
+  }
+
+  #weather-widget {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: default;
+  }
+
+  #weather-icon {
+    font-size: 24px;
+    line-height: 1;
+  }
+
+  #weather-info { display: flex; flex-direction: column; }
+  #weather-temp { font-size: 16px; font-weight: 600; color: var(--text); }
+  #weather-desc { font-size: 10px; color: var(--muted); text-transform: capitalize; letter-spacing: 0.05em; }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 70px 40px 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .greeting-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(232,184,75,0.12);
+    border: 1px solid rgba(232,184,75,0.3);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 24px;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .greeting-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(36px, 5vw, 58px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+
+  .hero h1 span {
+    background: linear-gradient(90deg, var(--accent), #f5d878);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero p {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.7;
+    animation: fadeUp 0.7s 0.2s ease both;
+    margin-bottom: 36px;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .stat-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--accent);
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── SECTION TITLE ── */
+  .section-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+  }
+
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .section-tag {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent2);
+    font-weight: 600;
+  }
+
+  .section-line { flex: 1; height: 1px; background: var(--border); }
+
+  .section-head h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+  }
+
+  /* ── MODULE CARDS ── */
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+  }
+
+  .module-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .module-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+    border-color: rgba(232,184,75,0.35);
+  }
+
+  .module-card-top {
+    height: 160px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .module-card-top .bg-glow {
+    position: absolute;
+    inset: 0;
+    opacity: 0.18;
+  }
+
+  .module-icon-big { font-size: 64px; position: relative; z-index: 1; }
+
+  .module-card-body { padding: 22px; }
+
+  .module-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+    margin-bottom: 12px;
+  }
+
+  .badge-required { background: rgba(232,184,75,0.15); color: var(--accent); border: 1px solid rgba(232,184,75,0.3); }
+  .badge-coming { background: rgba(122,143,171,0.15); color: var(--muted); border: 1px solid var(--border); }
+
+  .module-card-body h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .module-card-body p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+
+  .module-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .module-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), #f0c060);
+    color: #0a1628;
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+
+  .module-btn:hover { opacity: 0.9; transform: scale(0.99); }
+  .module-btn:disabled {
+    background: var(--border);
+    color: var(--muted);
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .module-progress {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-bottom: 18px;
+    overflow: hidden;
+  }
+
+  .module-progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent), #f0c060);
+    transition: width 0.6s ease;
+  }
+
+  /* ── MODAL OVERLAY ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    z-index: 200;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 24px;
+    overflow-y: auto;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal {
+    background: var(--deep);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 820px;
+    margin: auto;
+    overflow: hidden;
+    transform: translateY(24px);
+    transition: transform 0.3s;
+  }
+
+  .modal-overlay.active .modal { transform: translateY(0); }
+
+  .modal-header {
+    padding: 28px 32px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255,255,255,0.02);
+  }
+
+  .modal-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .modal-close {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--muted);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .modal-close:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+
+  .modal-body { padding: 32px; }
+
+  /* ── MODULE CONTENT ── */
+  .module-content { max-height: 55vh; overflow-y: auto; padding-right: 8px; margin-bottom: 28px; }
+
+  .module-content::-webkit-scrollbar { width: 4px; }
+  .module-content::-webkit-scrollbar-track { background: var(--border); border-radius: 2px; }
+  .module-content::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+  .content-section { margin-bottom: 28px; }
+
+  .content-section h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(232,184,75,0.15);
+  }
+
+  .content-section p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 8px;
+  }
+
+  .content-section ul, .content-section ol {
+    padding-left: 20px;
+    margin-bottom: 8px;
+  }
+
+  .content-section li {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 4px;
+  }
+
+  .content-highlight {
+    background: rgba(232,184,75,0.07);
+    border-left: 3px solid var(--accent);
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    margin: 12px 0;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .content-warning {
+    background: rgba(224,90,90,0.07);
+    border-left: 3px solid var(--danger);
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    margin: 12px 0;
+    font-size: 13px;
+    color: #f09090;
+    line-height: 1.6;
+  }
+
+  .start-assessment-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--accent), #f0c060);
+    border: none;
+    border-radius: 12px;
+    color: var(--navy);
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+
+  .start-assessment-btn:hover { opacity: 0.9; transform: scale(0.99); }
+
+  /* ── QUIZ ── */
+  .quiz-progress-bar {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+
+  .quiz-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #f5d878);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .quiz-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .quiz-score-badge {
+    background: rgba(232,184,75,0.1);
+    border: 1px solid rgba(232,184,75,0.2);
+    border-radius: 100px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .question-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-bottom: 22px;
+    color: var(--text);
+  }
+
+  .options-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .option-btn {
+    width: 100%;
+    padding: 14px 18px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .option-btn:hover:not(:disabled) {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.15);
+  }
+
+  .option-btn.correct { background: rgba(76,175,118,0.15); border-color: var(--success); color: #8cffb9; }
+  .option-btn.wrong { background: rgba(224,90,90,0.12); border-color: var(--danger); color: #ff9a9a; }
+  .option-btn.reveal-correct { background: rgba(76,175,118,0.1); border-color: rgba(76,175,118,0.4); }
+
+  .option-letter {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .feedback-box {
+    margin-top: 16px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.6;
+    display: none;
+  }
+
+  .feedback-box.show { display: block; }
+  .feedback-box.correct { background: rgba(76,175,118,0.1); border: 1px solid rgba(76,175,118,0.3); color: #8cffb9; }
+  .feedback-box.wrong { background: rgba(224,90,90,0.1); border: 1px solid rgba(224,90,90,0.3); color: #ff9a9a; }
+
+  .quiz-nav {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+  }
+
+  .next-btn {
+    padding: 12px 28px;
+    background: linear-gradient(135deg, var(--accent), #f0c060);
+    border: none;
+    border-radius: 10px;
+    color: var(--navy);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    display: none;
+    transition: opacity 0.2s;
+  }
+
+  .next-btn.show { display: block; }
+  .next-btn:hover { opacity: 0.9; }
+
+  /* ── RESULT ── */
+  .result-screen { text-align: center; padding: 20px 0; }
+  .result-ring {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    font-family: 'Syne', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+  }
+
+  .result-ring.pass {
+    background: radial-gradient(circle, rgba(76,175,118,0.15), rgba(76,175,118,0.05));
+    border: 3px solid var(--success);
+    color: var(--success);
+    box-shadow: 0 0 40px rgba(76,175,118,0.2);
+  }
+
+  .result-ring.fail {
+    background: radial-gradient(circle, rgba(224,90,90,0.15), rgba(224,90,90,0.05));
+    border: 3px solid var(--danger);
+    color: var(--danger);
+    box-shadow: 0 0 40px rgba(224,90,90,0.2);
+  }
+
+  .result-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+
+  .result-sub {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+
+  .result-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  .cert-btn, .retake-btn, .submit-sheet-btn {
+    padding: 13px 24px;
+    border-radius: 10px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+
+  .cert-btn {
+    background: linear-gradient(135deg, var(--accent), #f0c060);
+    color: var(--navy);
+  }
+
+  .submit-sheet-btn {
+    background: rgba(79,195,247,0.15);
+    color: var(--accent2);
+    border: 1px solid rgba(79,195,247,0.3);
+  }
+
+  .retake-btn {
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .cert-btn:hover, .retake-btn:hover, .submit-sheet-btn:hover { opacity: 0.85; transform: scale(0.98); }
+
+  /* ── NAME INPUT ── */
+  .name-step {
+    max-width: 440px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 20px 0;
+  }
+
+  .name-step h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .name-step p { font-size: 14px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+
+  .name-input-group { display: flex; flex-direction: column; gap: 12px; }
+
+  .name-input-group input {
+    width: 100%;
+    padding: 14px 18px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .name-input-group input:focus { border-color: var(--accent); }
+  .name-input-group input::placeholder { color: var(--muted); }
+
+  .begin-btn {
+    padding: 14px;
+    background: linear-gradient(135deg, var(--accent), #f0c060);
+    border: none;
+    border-radius: 10px;
+    color: var(--navy);
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    width: 100%;
+  }
+
+  .begin-btn:hover { opacity: 0.9; }
+
+  /* ── CERTIFICATE ── */
+  #cert-canvas { display: none; }
+  .cert-preview-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  .cert-preview-wrap img { max-width: 100%; border-radius: 8px; }
+  .download-cert-btn {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 12px 28px;
+    background: linear-gradient(135deg, var(--accent), #f0c060);
+    border: none;
+    border-radius: 10px;
+    color: var(--navy);
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 999;
+    padding: 14px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: transform 0.35s, opacity 0.35s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.success { background: rgba(76,175,118,0.2); border: 1px solid var(--success); color: #8cffb9; }
+  .toast.info { background: rgba(79,195,247,0.15); border: 1px solid rgba(79,195,247,0.3); color: var(--accent2); }
+  .toast.error { background: rgba(224,90,90,0.15); border: 1px solid var(--danger); color: #ff9a9a; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  footer p { font-size: 12px; color: var(--muted); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    header { padding: 14px 20px; flex-wrap: wrap; gap: 12px; }
+    .hero { padding: 40px 20px 30px; }
+    .section-wrap { padding: 0 20px 60px; }
+    .modules-grid { grid-template-columns: 1fr; }
+    #clock-widget { padding: 8px 12px; gap: 10px; }
+    #time-display { font-size: 15px; }
+    footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px; }
+    .hero-stats { gap: 20px; flex-wrap: wrap; }
+  }
+
+  /* tab component */
+  .tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 0; }
+
+  .tab-btn {
+    padding: 10px 16px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--muted);
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    font-weight: 500;
+    margin-bottom: -1px;
+  }
+
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .section-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: rgba(232,184,75,0.15);
+    color: var(--accent);
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    margin-right: 4px;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ── HEADER ── -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">📡</div>
+    <div class="logo-text">
+      <span class="logo-title">CCTV Operators' Learning Hub</span>
+      <span class="logo-sub">Megaworld Lifestyle Malls</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div id="clock-widget">
+      <div>
+        <div id="time-display">00:00:00</div>
+        <div id="date-display">Loading...</div>
+      </div>
+      <div class="divider-v"></div>
+      <div id="weather-widget">
+        <div id="weather-icon">⏳</div>
+        <div id="weather-info">
+          <span id="weather-temp">--°C</span>
+          <span id="weather-desc">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="greeting-tag">
+    <span class="greeting-dot"></span>
+    <span id="greeting-text">Welcome</span>
+  </div>
+  <h1>Your Professional<br><span>Development Hub.</span></h1>
+  <p>Mandatory training, compliance refreshers, and certification modules for Megaworld Lifestyle Malls CCTV Operators. Learn. Assess. Certify.</p>
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-val">1</span>
+      <span class="stat-label">Module Live</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val">20</span>
+      <span class="stat-label">Questions</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val">75%</span>
+      <span class="stat-label">Passing Score</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val">∞</span>
+      <span class="stat-label">Retakes</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── MODULES ── -->
+<div class="section-wrap">
+  <div class="section-head">
+    <span class="section-tag">Modules</span>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="modules-grid">
+
+    <!-- MODULE 1: Data Privacy -->
+    <div class="module-card" onclick="openModule()">
+      <div class="module-card-top" style="background: linear-gradient(135deg, #0d1f3c, #1a3a6b);">
+        <div class="bg-glow" style="background: radial-gradient(circle at 60% 40%, #e8b84b, transparent 70%);"></div>
+        <div class="module-icon-big">🔒</div>
+      </div>
+      <div class="module-card-body">
+        <div class="module-badge badge-required">⭐ Required · Compliance</div>
+        <h3>Data Privacy Act of the Philippines (RA 10173)</h3>
+        <p>Understand how the Data Privacy Act of 2012 applies to CCTV operations, including your roles, responsibilities, and legal obligations.</p>
+        <div class="module-progress">
+          <div class="module-progress-fill" style="width: 0%" id="mod1-progress"></div>
+        </div>
+        <div class="module-meta">
+          <div class="meta-item">⏱ <span>~25 min</span></div>
+          <div class="meta-item">📋 <span>20 questions</span></div>
+          <div class="meta-item">🏆 <span>Certificate</span></div>
+        </div>
+        <button class="module-btn" id="mod1-btn">Start Module</button>
+      </div>
+    </div>
+
+    <!-- MODULE 2: Placeholder -->
+    <div class="module-card" style="opacity:0.55; cursor:default;" onclick="">
+      <div class="module-card-top" style="background: linear-gradient(135deg, #0d1f3c, #162d50);">
+        <div class="bg-glow" style="background: radial-gradient(circle at 60% 40%, #4fc3f7, transparent 70%);"></div>
+        <div class="module-icon-big">📹</div>
+      </div>
+      <div class="module-card-body">
+        <div class="module-badge badge-coming">🔜 Coming Soon</div>
+        <h3>CCTV Operations Standards & SOPs</h3>
+        <p>Standard Operating Procedures for CCTV monitoring, incident response, and proper camera operations management.</p>
+        <div class="module-meta">
+          <div class="meta-item">⏱ <span>~30 min</span></div>
+          <div class="meta-item">📋 <span>25 questions</span></div>
+          <div class="meta-item">🏆 <span>Certificate</span></div>
+        </div>
+        <button class="module-btn" disabled>Coming Soon</button>
+      </div>
+    </div>
+
+    <!-- MODULE 3: Placeholder -->
+    <div class="module-card" style="opacity:0.55; cursor:default;">
+      <div class="module-card-top" style="background: linear-gradient(135deg, #0d1f3c, #1a2f50);">
+        <div class="bg-glow" style="background: radial-gradient(circle at 60% 40%, #a78bfa, transparent 70%);"></div>
+        <div class="module-icon-big">🚨</div>
+      </div>
+      <div class="module-card-body">
+        <div class="module-badge badge-coming">🔜 Coming Soon</div>
+        <h3>Incident Response & Chain of Custody</h3>
+        <p>Proper procedures for incident documentation, footage extraction, and legal chain-of-custody requirements.</p>
+        <div class="module-meta">
+          <div class="meta-item">⏱ <span>~20 min</span></div>
+          <div class="meta-item">📋 <span>20 questions</span></div>
+          <div class="meta-item">🏆 <span>Certificate</span></div>
+        </div>
+        <button class="module-btn" disabled>Coming Soon</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 Megaworld Lifestyle Malls · Surveillance and Communications Unit</p>
+  <p style="font-size:11px;">This platform is for authorized personnel only. All activity is logged.</p>
+</footer>
+
+</div><!-- .page -->
+
+<!-- ── MODULE MODAL ── -->
+<div class="modal-overlay" id="module-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modal-title-text">🔒 Data Privacy Act — RA 10173</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;" id="modal-subtitle">Surveillance and Communications Unit — Compliance Module</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body">
+      <!-- content injected by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- Hidden canvas for certificate generation -->
+<canvas id="cert-canvas" width="1056" height="748"></canvas>
+
+<script>
+// ══════════════════════════════════════════════
+// CLOCK
+// ══════════════════════════════════════════════
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('time-display').textContent = `${h}:${m}:${s}`;
+
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('date-display').textContent =
+    `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()} ${now.getFullYear()}`;
+
+  const hour = now.getHours();
+  let greeting;
+  if (hour >= 5 && hour < 12) greeting = '☀️ Good morning!';
+  else if (hour >= 12 && hour < 14) greeting = '🌤 Good noon!';
+  else if (hour >= 14 && hour < 18) greeting = '🌤 Good afternoon!';
+  else if (hour >= 18 && hour < 21) greeting = '🌆 Good evening!';
+  else greeting = '🌙 Good night!';
+  document.getElementById('greeting-text').textContent = greeting;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ══════════════════════════════════════════════
+// WEATHER — OpenWeatherMap (Manila)
+// ══════════════════════════════════════════════
+async function fetchWeather() {
+  const API_KEY = '4b45ba5e9a3e9853e3b39254e62d9e40'; // public demo key
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=Manila,PH&units=metric&appid=${API_KEY}`;
+  try {
+    const res = await fetch(url);
+    const d = await res.json();
+    const temp = Math.round(d.main.temp);
+    const desc = d.weather[0].description;
+    const icon = getWeatherEmoji(d.weather[0].id, d.weather[0].icon);
+    document.getElementById('weather-icon').textContent = icon;
+    document.getElementById('weather-temp').textContent = `${temp}°C`;
+    document.getElementById('weather-desc').textContent = desc;
+  } catch(e) {
+    document.getElementById('weather-icon').textContent = '🌤';
+    document.getElementById('weather-temp').textContent = '--°C';
+    document.getElementById('weather-desc').textContent = 'Manila';
+  }
+}
+
+function getWeatherEmoji(id, icon) {
+  const night = icon && icon.endsWith('n');
+  if (id >= 200 && id < 300) return '⛈';
+  if (id >= 300 && id < 400) return '🌦';
+  if (id >= 500 && id < 600) return '🌧';
+  if (id >= 600 && id < 700) return '❄️';
+  if (id === 800) return night ? '🌙' : '☀️';
+  if (id === 801) return night ? '🌙' : '🌤';
+  if (id >= 802 && id <= 804) return '☁️';
+  if (id >= 700 && id < 800) return '🌫';
+  return '🌤';
+}
+fetchWeather();
+setInterval(fetchWeather, 10 * 60 * 1000);
+
+// ══════════════════════════════════════════════
+// QUIZ DATA — RA 10173
+// ══════════════════════════════════════════════
+const MODULE_CONTENT_TABS = [
+  {
+    label: 'Legal Framework',
+    sections: [
+      { title: 'I. What is RA 10173?', content: `<p>The <strong>Data Privacy Act of 2012 (Republic Act No. 10173)</strong> is the primary law in the Philippines governing the protection of personal data. It regulates the entire lifecycle of personal data processing — from collection and recording to storage, use, and eventual destruction.</p>
+      <div class="content-highlight">CCTV operations fall squarely under this law because <strong>video footage that can identify a person is considered Personal Data.</strong></div>
+      <p>Regulated processing activities include: Collection, Recording, Organization, Storage, Updating, Retrieval, Consultation, Use, Consolidation, Blocking, Erasure, and Destruction.</p>` },
+      { title: 'II. Why CCTV Operations Are Covered', content: `<p>Under RA 10173, personal data is classified as:</p>
+      <ul>
+        <li><strong>Personal Information</strong> – Any data from which a person can be identified</li>
+        <li><strong>Sensitive Personal Information</strong> – Includes health data, race, religion, etc.</li>
+        <li><strong>Privileged Information</strong> – Confidential communications</li>
+      </ul>
+      <p>CCTV footage becomes Personal Information when faces are visible, license plates are readable, identifiable uniforms are visible, or body marks/tattoos/behavior identify a person.</p>
+      <div class="content-warning">⚠️ Every CCTV Operator is processing personal data every second they monitor.</div>` },
+    ]
+  },
+  {
+    label: 'Roles & Principles',
+    sections: [
+      { title: 'III. Roles Under RA 10173', content: `<p><strong>Personal Information Controller (PIC)</strong> — The organization that decides why CCTV is installed, where cameras are placed, how long footage is retained, and who has access. For malls, the company operating the mall is typically the PIC.</p>
+      <p><strong>Personal Information Processor (PIP)</strong> — A third-party that processes data on behalf of the PIC. Examples: Third-party CCTV service providers, outsourced monitoring centers.</p>
+      <p><strong>Supervisors</strong> — Ensure access control is enforced, logs are maintained, releases are legally justified, and retention periods are observed.</p>` },
+      { title: 'IV. Core Data Privacy Principles', content: `<p>RA 10173 is built on three core principles:</p>
+      <ul>
+        <li><strong>Transparency</strong> — Individuals must know that CCTV recording is happening, who controls the footage, and why. Requires clear CCTV signage at entrances and privacy notices.</li>
+        <li><strong>Legitimate Purpose</strong> — CCTV must only be used for security, crime prevention, safety monitoring, or incident investigation. <em>Cannot</em> be used for harassment, voyeurism, or unauthorized surveillance.</li>
+        <li><strong>Proportionality</strong> — Collection must not be excessive. Do not install cameras inside restrooms, avoid zooming into private areas, do not focus on specific individuals without incident basis.</li>
+      </ul>` },
+    ]
+  },
+  {
+    label: 'Access & Requests',
+    sections: [
+      { title: 'V. Signage & Access Control', content: `<p>Proper CCTV signage must include: notice of surveillance, identity of the organization, purpose (security and safety), and contact details of the Data Protection Officer (DPO). Signage must be visible, readable, and installed before entry into monitored areas.</p>
+      <p>Access to footage must be restricted to: Authorized CCTV Operators, Supervisors, Security Management, and Legal department when needed. All access must be Logged, Justified, and Approved when required.</p>
+      <div class="content-warning">⛔ Operators must NEVER record via personal phones, take screenshots for personal use, share clips via messaging apps, upload to social media, or release copies without proper authority.</div>` },
+      { title: 'VI. Requests for Footage', content: `<p><strong>Private Individuals:</strong> Data subjects may request access, but raw CCTV footage often contains data of multiple individuals. Legal review is required and redaction may be necessary. Identity verification is mandatory.</p>
+      <p><strong>Law Enforcement (PNP):</strong> Requires an official request letter, case reference number, signature of authorized officer, and proper identification. Release only to the named requesting officer through documented turnover with acknowledgment receipt.</p>
+      <p><strong>Court Orders / Subpoena:</strong> Coordinate with Legal Department, preserve footage immediately, and follow chain-of-custody procedures.</p>` },
+    ]
+  },
+  {
+    label: 'Security & Penalties',
+    sections: [
+      { title: 'VII. Security Measures & Retention', content: `<p>RA 10173 requires organizational measures (written CCTV policy, confidentiality agreements, access matrix), physical measures (locked control rooms, restricted server rooms), and technical measures (unique login credentials, password policies, audit logs, encrypted storage).</p>
+      <p><strong>Retention Policy:</strong> Typical industry practice is 30 days unless incident-related. Incident-related footage must be preserved until case resolution and stored securely with restricted access.</p>` },
+      { title: 'VIII. Penalties & Chain of Custody', content: `<p>Violations may result in: Imprisonment (1–6 years), Fines up to ₱5,000,000, Administrative sanctions, and Termination of employment.</p>
+      <p>Offenses include: Unauthorized processing, Access due to negligence, Improper disposal, Concealment of breach, Malicious disclosure.</p>
+      <div class="content-highlight">🔗 Chain of Custody: Identify exact timestamp → Export using approved method → Label media → Seal in envelope → Log in Release Logbook → Secure acknowledgment receipt. NEVER use personal USB or transfer without documentation.</div>
+      <p>Data breach incidents must be reported to your Supervisor, escalated to the DPO, with logs preserved. RA 10173 requires breach notification to the National Privacy Commission (NPC) under certain conditions.</p>` },
+    ]
+  }
+];
+
+const QUIZ_QUESTIONS = [
+  {
+    q: "What Republic Act governs data privacy in the Philippines?",
+    opts: ["RA 10175", "RA 10173", "RA 9165", "RA 7394"],
+    ans: 1,
+    exp: "RA 10173, also known as the Data Privacy Act of 2012, is the primary law governing personal data protection in the Philippines."
+  },
+  {
+    q: "When does CCTV footage become 'Personal Information' under RA 10173?",
+    opts: ["When the camera is in public areas only", "When it captures events inside a mall", "When it can be used to identify a specific person", "Only when the person consents to being filmed"],
+    ans: 2,
+    exp: "CCTV footage becomes Personal Information when it can identify a person — through visible faces, license plates, identifiable uniforms, tattoos, or behavior."
+  },
+  {
+    q: "Who is the Personal Information Controller (PIC) in a mall CCTV system?",
+    opts: ["The CCTV Operator on duty", "The third-party service provider", "The company operating the mall", "The National Privacy Commission"],
+    ans: 2,
+    exp: "The organization that decides why CCTV is installed, where cameras are placed, and how footage is managed is the PIC — typically the mall company."
+  },
+  {
+    q: "Which of the following is NOT a legitimate purpose for CCTV under RA 10173?",
+    opts: ["Crime prevention", "Safety monitoring", "Monitoring a specific employee's personal activities", "Incident investigation"],
+    ans: 2,
+    exp: "CCTV cannot be used for personal monitoring, harassment, voyeurism, or unauthorized surveillance. It must serve legitimate security and safety purposes."
+  },
+  {
+    q: "What does the principle of 'Proportionality' require in CCTV operations?",
+    opts: ["More cameras in more areas for better coverage", "Collection must not be excessive and must match the purpose", "Equal surveillance of all tenants", "That audio must always be recorded alongside video"],
+    ans: 1,
+    exp: "Proportionality means data collection must not be excessive relative to the purpose. Avoid cameras in restrooms, avoid zooming into private areas unnecessarily."
+  },
+  {
+    q: "A CCTV operator's friend is curious about an incident at the mall. The friend asks to see the footage. What should the operator do?",
+    opts: ["Show just a short clip as long as no faces are visible", "Refuse and report if pressure persists", "Send a screenshot via private Messenger", "Allow viewing inside the control room"],
+    ans: 1,
+    exp: "Operators must refuse unauthorized access and report if pressure continues. Sharing footage with personal contacts — in any form — is a violation."
+  },
+  {
+    q: "Under RA 10173, what is the maximum fine for violations?",
+    opts: ["₱1,000,000", "₱2,500,000", "₱5,000,000", "₱10,000,000"],
+    ans: 2,
+    exp: "Violations under RA 10173 may result in fines of up to ₱5,000,000, in addition to imprisonment and administrative sanctions."
+  },
+  {
+    q: "A PNP officer verbally requests CCTV footage of an incident. What is the correct procedure?",
+    opts: ["Release the footage immediately since it's for law enforcement", "Require an official request letter, verify identity, and inform the supervisor", "Copy footage to a personal USB and hand it over", "Show the footage on the monitor but don't provide a copy"],
+    ans: 1,
+    exp: "Law enforcement requests require an official letter with case reference, officer signature, and proper ID. Never release without documentation regardless of verbal requests."
+  },
+  {
+    q: "What must be included in CCTV signage according to RA 10173?",
+    opts: ["Camera model and manufacturer", "Notice of surveillance, organization identity, purpose, and DPO contact details", "The number of cameras installed and their coverage area", "Security personnel schedule"],
+    ans: 1,
+    exp: "Proper CCTV signage must include notice of surveillance, identity of the controlling organization, purpose (security/safety), and contact details of the Data Protection Officer."
+  },
+  {
+    q: "What is the typical industry standard for CCTV footage retention?",
+    opts: ["7 days", "15 days", "30 days", "90 days"],
+    ans: 2,
+    exp: "The typical industry practice is 30 days for routine footage. Incident-related footage must be preserved until case resolution."
+  },
+  {
+    q: "Which action by a CCTV Operator could lead to criminal prosecution under RA 10173?",
+    opts: ["Logging each access to the recording system", "Uploading a crime incident clip to social media", "Referring a footage request to management", "Reporting a data breach to the supervisor"],
+    ans: 1,
+    exp: "Uploading footage to social media is unauthorized disclosure — a criminal offense under RA 10173 that can lead to imprisonment, fines, and termination."
+  },
+  {
+    q: "What is a 'Personal Information Processor' (PIP) in the context of CCTV?",
+    opts: ["The NPC commissioner overseeing data privacy", "The data subject who was recorded", "A third-party entity that processes data on behalf of the PIC", "The CCTV Operator assigned to the graveyard shift"],
+    ans: 2,
+    exp: "A PIP is a third party (like a contracted monitoring company or CCTV service provider) that processes data on behalf of the Personal Information Controller."
+  },
+  {
+    q: "In chain of custody procedures, what should NEVER be used to extract and transfer footage?",
+    opts: ["An official company-issued external drive", "A personal USB drive", "An encrypted secure server", "A sealed and labeled optical disc"],
+    ans: 1,
+    exp: "Using personal USB drives violates chain of custody. All transfers must use approved methods, be labeled, logged, and accompanied by an acknowledgment receipt."
+  },
+  {
+    q: "Which of the following is a Data Subject Right under RA 10173?",
+    opts: ["Right to demand live camera feeds", "Right to access their personal data held by organizations", "Right to view all footage recorded in a public mall area", "Right to disable CCTV in areas they frequent"],
+    ans: 1,
+    exp: "RA 10173 grants data subjects the Right to Access their personal data. In CCTV context, such requests must go through the DPO and may require redaction of other individuals' data."
+  },
+  {
+    q: "A data breach occurs when a hacked CCTV system is discovered. What is the FIRST step?",
+    opts: ["Attempt to fix the system quietly to avoid alarm", "Report to Supervisor immediately and escalate to the DPO", "Delete all footage to prevent further unauthorized viewing", "Announce the breach on the mall PA system"],
+    ans: 1,
+    exp: "The first step is to report to your Supervisor and escalate to the Data Protection Officer. Do not conceal incidents — RA 10173 requires breach notification to the NPC under certain conditions."
+  },
+  {
+    q: "Installing CCTV cameras inside restrooms is:",
+    opts: ["Allowed if there is a posted notice", "Allowed only for high-security areas", "A violation of proportionality and privacy under RA 10173", "Allowed if approved by management"],
+    ans: 2,
+    exp: "Installing cameras in restrooms violates the principle of proportionality and constitutes a severe privacy violation, regardless of any notices or approvals."
+  },
+  {
+    q: "A tenant demands a copy of CCTV footage directly from the operator on duty. What should the operator do?",
+    opts: ["Provide the copy if the tenant signs a waiver", "Show the footage on the monitor briefly as a compromise", "Refer to management and log the request without releasing anything", "Copy only the portion without identifiable faces"],
+    ans: 2,
+    exp: "The correct action is to refer to management and log the request. Operators cannot independently decide to release footage — all releases require proper authority and documentation."
+  },
+  {
+    q: "Which government body oversees enforcement of RA 10173?",
+    opts: ["Department of Information and Communications Technology (DICT)", "National Bureau of Investigation (NBI)", "National Privacy Commission (NPC)", "Commission on Information and Communications Technology"],
+    ans: 2,
+    exp: "The National Privacy Commission (NPC) is the government body that enforces RA 10173 and receives breach notifications from organizations."
+  },
+  {
+    q: "What is the imprisonment range for violations under RA 10173?",
+    opts: ["6 months to 2 years", "1 to 6 years", "3 to 10 years", "1 to 12 years"],
+    ans: 1,
+    exp: "RA 10173 prescribes imprisonment ranging from 1 to 6 years depending on the specific offense committed."
+  },
+  {
+    q: "Which of the following best defines the 'Transparency' principle under RA 10173?",
+    opts: ["Making CCTV footage transparent by keeping it unencrypted", "Ensuring individuals know they are being recorded, who controls the footage, and why", "Publishing all recordings online for public accountability", "Conducting surveillance without informing management to ensure unbiased data"],
+    ans: 1,
+    exp: "Transparency requires that individuals are informed of CCTV recording through proper signage, privacy notices, and accessible disclosures about data processing."
+  }
+];
+
+const PASSING_SCORE = 0.75; // 75%
+const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/1W2qy3wiARRB09kFRV0mWGxratkfIo1ApIm0pMESMu34/exec";
+
+// ══════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════
+let state = {
+  screen: 'landing', // landing | name | content | quiz | result | certificate
+  userName: '',
+  userPosition: '',
+  currentQuestion: 0,
+  answers: [],
+  score: 0,
+  activeTab: 0,
+};
+
+// ══════════════════════════════════════════════
+// MODAL OPEN / CLOSE
+// ══════════════════════════════════════════════
+function openModule() {
+  state.screen = 'name';
+  state.currentQuestion = 0;
+  state.answers = [];
+  state.score = 0;
+  renderModal();
+  document.getElementById('module-modal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('module-modal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// ══════════════════════════════════════════════
+// RENDER MODAL
+// ══════════════════════════════════════════════
+function renderModal() {
+  const body = document.getElementById('modal-body');
+  const subtitle = document.getElementById('modal-subtitle');
+
+  if (state.screen === 'name') {
+    subtitle.textContent = 'Step 1 of 3 — Identification';
+    body.innerHTML = `
+      <div class="name-step">
+        <div style="font-size:48px;margin-bottom:16px;">👤</div>
+        <h3>Before we begin</h3>
+        <p>Please enter your full name and position. This will appear on your certificate and assessment record.</p>
+        <div class="name-input-group">
+          <input type="text" id="input-name" placeholder="Full Name (e.g. Juan Dela Cruz)" maxlength="80" />
+          <input type="text" id="input-pos" placeholder="Position (e.g. CCTV Operator)" maxlength="60" />
+          <button class="begin-btn" onclick="submitName()">Proceed to Module →</button>
+        </div>
+      </div>
+    `;
+    setTimeout(() => document.getElementById('input-name').focus(), 100);
+
+  } else if (state.screen === 'content') {
+    subtitle.textContent = 'Step 2 of 3 — Study Material';
+    state.activeTab = state.activeTab || 0;
+    const tabs = MODULE_CONTENT_TABS.map((t,i) =>
+      `<button class="tab-btn ${i===state.activeTab?'active':''}" onclick="switchTab(${i})">${t.label}</button>`
+    ).join('');
+
+    const activeContent = MODULE_CONTENT_TABS[state.activeTab].sections.map(s =>
+      `<div class="content-section"><h3>${s.title}</h3>${s.content}</div>`
+    ).join('');
+
+    body.innerHTML = `
+      <div style="margin-bottom:12px;font-size:13px;color:var(--muted);">👋 Hello, <strong style="color:var(--text)">${state.userName}</strong>! Review all four sections before starting the assessment.</div>
+      <div class="tabs">${tabs}</div>
+      <div class="module-content">${activeContent}</div>
+      <button class="start-assessment-btn" onclick="startQuiz()">✔ I've reviewed the material — Start Assessment</button>
+    `;
+
+  } else if (state.screen === 'quiz') {
+    subtitle.textContent = `Step 3 of 3 — Assessment (Q${state.currentQuestion+1}/${QUIZ_QUESTIONS.length})`;
+    const q = QUIZ_QUESTIONS[state.currentQuestion];
+    const progress = ((state.currentQuestion) / QUIZ_QUESTIONS.length) * 100;
+    const opts = q.opts.map((o,i) => {
+      const letters = ['A','B','C','D'];
+      return `<button class="option-btn" id="opt-${i}" onclick="selectAnswer(${i})">
+        <span class="option-letter">${letters[i]}</span>${o}
+      </button>`;
+    }).join('');
+
+    body.innerHTML = `
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${progress}%"></div></div>
+      <div class="quiz-header">
+        <span class="quiz-count">Question ${state.currentQuestion+1} of ${QUIZ_QUESTIONS.length}</span>
+        <span class="quiz-score-badge">Score: ${state.score}/${state.currentQuestion}</span>
+      </div>
+      <div class="question-text">${q.q}</div>
+      <div class="options-list">${opts}</div>
+      <div class="feedback-box" id="feedback-box"></div>
+      <div class="quiz-nav">
+        <button class="next-btn" id="next-btn" onclick="nextQuestion()">${state.currentQuestion < QUIZ_QUESTIONS.length-1 ? 'Next Question →' : 'See Results →'}</button>
+      </div>
+    `;
+
+  } else if (state.screen === 'result') {
+    const total = QUIZ_QUESTIONS.length;
+    const pct = Math.round((state.score / total) * 100);
+    const passed = pct >= PASSING_SCORE * 100;
+    subtitle.textContent = 'Assessment Complete';
+
+    body.innerHTML = `
+      <div class="result-screen">
+        <div class="result-ring ${passed?'pass':'fail'}">${pct}%</div>
+        <div class="result-title">${passed ? '🎉 Congratulations!' : '❌ Did Not Pass'}</div>
+        <div class="result-sub">
+          You answered <strong>${state.score} out of ${total}</strong> questions correctly.<br>
+          ${passed
+            ? 'You have successfully passed the Data Privacy Act Module. You may now generate your certificate.'
+            : `You need at least ${Math.round(PASSING_SCORE*100)}% to pass. Review the material and try again.`
+          }
+        </div>
+        <div class="result-actions">
+          ${passed ? `<button class="cert-btn" onclick="generateCertificate()">🏆 Generate Certificate</button>
+                      <button class="submit-sheet-btn" onclick="submitToSheet()">📊 Submit to Records</button>` : ''}
+          <button class="retake-btn" onclick="retakeQuiz()">🔄 Retake Assessment</button>
+        </div>
+        <div id="cert-section" style="margin-top:20px;"></div>
+      </div>
+    `;
+
+  } else if (state.screen === 'certificate') {
+    // handled within result screen
+  }
+}
+
+// ══════════════════════════════════════════════
+// TAB SWITCH (CONTENT)
+// ══════════════════════════════════════════════
+function switchTab(i) {
+  state.activeTab = i;
+  renderModal();
+}
+
+// ══════════════════════════════════════════════
+// NAME SUBMISSION
+// ══════════════════════════════════════════════
+function submitName() {
+  const name = document.getElementById('input-name').value.trim();
+  const pos = document.getElementById('input-pos').value.trim();
+  if (!name) { showToast('Please enter your full name.', 'error'); return; }
+  if (!pos) { showToast('Please enter your position.', 'error'); return; }
+  state.userName = name;
+  state.userPosition = pos;
+  state.screen = 'content';
+  state.activeTab = 0;
+  renderModal();
+}
+
+// ══════════════════════════════════════════════
+// START QUIZ
+// ══════════════════════════════════════════════
+function startQuiz() {
+  state.screen = 'quiz';
+  state.currentQuestion = 0;
+  state.score = 0;
+  state.answers = [];
+  renderModal();
+}
+
+// ══════════════════════════════════════════════
+// ANSWER SELECTION
+// ══════════════════════════════════════════════
+function selectAnswer(chosen) {
+  const q = QUIZ_QUESTIONS[state.currentQuestion];
+  const btns = document.querySelectorAll('.option-btn');
+  btns.forEach(b => b.disabled = true);
+
+  const correct = q.ans;
+  const isCorrect = chosen === correct;
+  if (isCorrect) state.score++;
+  state.answers.push({ chosen, correct, isCorrect });
+
+  btns[chosen].classList.add(isCorrect ? 'correct' : 'wrong');
+  if (!isCorrect) btns[correct].classList.add('reveal-correct');
+
+  const fb = document.getElementById('feedback-box');
+  fb.className = `feedback-box show ${isCorrect ? 'correct' : 'wrong'}`;
+  fb.textContent = (isCorrect ? '✓ Correct! ' : '✗ Incorrect. ') + q.exp;
+
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.classList.add('show');
+
+  // Update score badge
+  document.querySelector('.quiz-score-badge').textContent = `Score: ${state.score}/${state.currentQuestion+1}`;
+}
+
+// ══════════════════════════════════════════════
+// NEXT QUESTION
+// ══════════════════════════════════════════════
+function nextQuestion() {
+  state.currentQuestion++;
+  if (state.currentQuestion >= QUIZ_QUESTIONS.length) {
+    state.screen = 'result';
+  } else {
+    state.screen = 'quiz';
+  }
+  renderModal();
+}
+
+// ══════════════════════════════════════════════
+// RETAKE
+// ══════════════════════════════════════════════
+function retakeQuiz() {
+  state.screen = 'quiz';
+  state.currentQuestion = 0;
+  state.score = 0;
+  state.answers = [];
+  renderModal();
+}
+
+// ══════════════════════════════════════════════
+// SUBMIT TO GOOGLE SHEET
+// ══════════════════════════════════════════════
+async function submitToSheet() {
+  const total = QUIZ_QUESTIONS.length;
+  const pct = Math.round((state.score / total) * 100);
+  const passed = pct >= PASSING_SCORE * 100;
+  const now = new Date();
+  const dateStr = now.toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
+
+  const payload = {
+    name: state.userName,
+    position: state.userPosition,
+    module: 'Data Privacy Act — RA 10173',
+    score: state.score,
+    total: total,
+    percent: pct,
+    passed: passed ? 'PASSED' : 'FAILED',
+    date: dateStr,
+  };
+
+  showToast('Submitting to records...', 'info');
+
+  try {
+    await fetch(GOOGLE_SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    showToast('✅ Result submitted to Google Sheets!', 'success');
+  } catch(e) {
+    showToast('⚠️ Could not connect to records. Please contact your supervisor.', 'error');
+  }
+}
+
+// ══════════════════════════════════════════════
+// CERTIFICATE GENERATION
+// ══════════════════════════════════════════════
+function generateCertificate() {
+  const canvas = document.getElementById('cert-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+
+  // Background
+  ctx.fillStyle = '#0a1628';
+  ctx.fillRect(0, 0, W, H);
+
+  // Gold border
+  ctx.strokeStyle = '#e8b84b';
+  ctx.lineWidth = 8;
+  ctx.strokeRect(24, 24, W-48, H-48);
+
+  ctx.strokeStyle = 'rgba(232,184,75,0.3)';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(36, 36, W-72, H-72);
+
+  // Grid lines (subtle)
+  ctx.strokeStyle = 'rgba(74,140,255,0.04)';
+  ctx.lineWidth = 1;
+  for(let x=0; x<W; x+=48) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+  for(let y=0; y<H; y+=48) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+  // Radial glow
+  const grd = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, 400);
+  grd.addColorStop(0, 'rgba(232,184,75,0.08)');
+  grd.addColorStop(1, 'transparent');
+  ctx.fillStyle = grd;
+  ctx.fillRect(0,0,W,H);
+
+  // Header
+  ctx.fillStyle = '#e8b84b';
+  ctx.font = 'bold 14px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.letterSpacing = '4px';
+  ctx.fillText('MEGAWORLD LIFESTYLE MALLS', W/2, 90);
+
+  ctx.fillStyle = 'rgba(232,184,75,0.5)';
+  ctx.font = '11px sans-serif';
+  ctx.fillText('CCTV OPERATIONS & SURVEILLANCE MANAGEMENT', W/2, 112);
+
+  // Divider
+  ctx.strokeStyle = 'rgba(232,184,75,0.4)';
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(100, 130); ctx.lineTo(W-100, 130); ctx.stroke();
+
+  // Icon
+  ctx.font = '52px sans-serif';
+  ctx.fillText('🏆', W/2, 198);
+
+  // Title
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 32px Georgia, serif';
+  ctx.fillText('Certificate of Completion', W/2, 255);
+
+  ctx.fillStyle = 'rgba(255,255,255,0.5)';
+  ctx.font = '13px sans-serif';
+  ctx.fillText('This is to certify that', W/2, 295);
+
+  // Name
+  ctx.fillStyle = '#e8b84b';
+  ctx.font = 'bold 40px Georgia, serif';
+  ctx.fillText(state.userName.toUpperCase(), W/2, 360);
+
+  // Position
+  ctx.fillStyle = 'rgba(255,255,255,0.6)';
+  ctx.font = '14px sans-serif';
+  ctx.fillText(state.userPosition, W/2, 390);
+
+  // Body text
+  ctx.fillStyle = 'rgba(255,255,255,0.5)';
+  ctx.font = '13px sans-serif';
+  ctx.fillText('has successfully completed the mandatory training module:', W/2, 430);
+
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 18px Georgia, serif';
+  ctx.fillText('Data Privacy Act of the Philippines (RA 10173)', W/2, 462);
+
+  ctx.fillStyle = 'rgba(255,255,255,0.5)';
+  ctx.font = '12px sans-serif';
+  ctx.fillText('Surveillance and Communications Unit', W/2, 484);
+
+  // Score
+  const total = QUIZ_QUESTIONS.length;
+  const pct = Math.round((state.score / total) * 100);
+  ctx.fillStyle = 'rgba(232,184,75,0.8)';
+  ctx.font = 'bold 13px sans-serif';
+  ctx.fillText(`Assessment Score: ${state.score}/${total} (${pct}%) — PASSED`, W/2, 520);
+
+  // Divider
+  ctx.strokeStyle = 'rgba(232,184,75,0.3)';
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(100, 550); ctx.lineTo(W-100, 550); ctx.stroke();
+
+  // Date
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-PH', { year:'numeric', month:'long', day:'numeric' });
+  ctx.fillStyle = 'rgba(255,255,255,0.4)';
+  ctx.font = '12px sans-serif';
+  ctx.fillText(`Date of Completion: ${dateStr}`, W/2, 580);
+
+  // Footer seal
+  ctx.fillStyle = 'rgba(232,184,75,0.25)';
+  ctx.font = '11px monospace';
+  ctx.fillText('📡 CCTV OPERATORS\' LEARNING HUB · MEGAWORLD LIFESTYLE MALLS · SURVEILLANCE AND COMMUNICATIONS UNIT', W/2, 625);
+
+  // Corner decorations
+  const corners = [[55,55],[W-55,55],[55,H-55],[W-55,H-55]];
+  corners.forEach(([cx,cy]) => {
+    ctx.beginPath();
+    ctx.arc(cx, cy, 10, 0, Math.PI*2);
+    ctx.strokeStyle = '#e8b84b';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(232,184,75,0.2)';
+    ctx.fill();
+  });
+
+  // Show preview
+  const imgSrc = canvas.toDataURL('image/png');
+  const certSection = document.getElementById('cert-section');
+  certSection.innerHTML = `
+    <div class="cert-preview-wrap">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:10px;">📄 Certificate Preview</div>
+      <img src="${imgSrc}" alt="Certificate" />
+      <br>
+      <a class="download-cert-btn" href="${imgSrc}" download="Certificate_RA10173_${state.userName.replace(/ /g,'_')}.png">⬇ Download Certificate</a>
+    </div>
+  `;
+  showToast('🏆 Certificate generated! Click Download to save it.', 'success');
+}
+
+// ══════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════
+let toastTimer;
+function showToast(msg, type='info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast show ${type}`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 4000);
+}
+
+// Close modal on overlay click
+document.getElementById('module-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ESC close
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+</script>
+</body>
+</html>
